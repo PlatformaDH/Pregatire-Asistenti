@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Administrator – Destine Broker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root {
+  --blue: #154f9c;
+  --blue-dark: #0f3970;
+  --orange: #ff7a1a;
+  --light: #f4f6fb;
+}
+
+body {
+  margin:0;
+  font-family: system-ui, sans-serif;
+  background:#f4f6fb;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(90deg, var(--blue), var(--blue-dark), var(--orange));
+  color:#fff;
+  padding:16px 20px;
+  font-size:20px;
+  font-weight:600;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 4px 14px rgba(0,0,0,0.24);
+}
+
+.user-menu {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-name {
+  padding:6px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.18);
+  border:1px solid rgba(255,255,255,0.35);
+}
+
+.header-link {
+  color:#fff;
+  text-decoration:none;
+  padding:6px 12px;
+  border-radius:8px;
+  font-weight:600;
+}
+.header-link:hover {
+  background:rgba(0,0,0,0.2);
+}
+
+/* LAYOUT */
+.container {
+  max-width:1200px;
+  margin:28px auto;
+  background:#fff;
+  border-radius:16px;
+  padding:26px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.12);
+}
+
+/* SECTIONS */
+h2 {
+  color:var(--blue-dark);
+  margin-top:0;
+  font-size:24px;
+}
+
+.section {
+  margin-bottom:40px;
+  padding-bottom:20px;
+  border-bottom:1px solid #e2e8f0;
+}
+
+/* TABLES */
+table {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:12px;
+  font-size:14px;
+}
+th {
+  background:#eef2ff;
+  padding:10px;
+  text-align:left;
+  color:var(--blue-dark);
+}
+td {
+  padding:10px;
+  border-bottom:1px solid #e5e7eb;
+}
+button {
+  padding:6px 12px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+}
+.btn-approve { background:#15803d; color:#fff; }
+.btn-reject  { background:#b91c1c; color:#fff; }
+.btn-role    { background:var(--blue); color:#fff; }
+.btn-reset   { background:#d97706; color:#fff; }
+.btn-delete  { background:#b91c1c; color:#fff; }
+
+/* MESSAGE */
+.msg {
+  margin-top:10px;
+  font-size:14px;
+  font-weight:600;
+}
+.msg.ok { color:#15803d; }
+.msg.err { color:#b91c1c; }
+
+</style>
+</head>
+
+<body class="page-admin-only">
+
+<header>
+  Dashboard Administrator – Destine Broker
+  <div class="user-menu" id="userMenu" style="display:none;">
+    <span class="user-name" id="headerUserName">Admin</span>
+    <a href="profil_header.html" class="header-link">Profil</a>
+    <a class="header-link" id="logoutBtn">Logout</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ######################################## -->
+  <!-- ##   CERERI ÎN AȘTEPTARE (pendingUsers) ## -->
+  <!-- ######################################## -->
+
+  <div class="section">
+    <h2>Cereri noi de acces</h2>
+
+    <table id="pendingTable">
+      <thead>
+        <tr>
+          <th>Nume complet</th>
+          <th>Email</th>
+          <th>Telefon</th>
+          <th>Localitate</th>
+          <th>Cod intern</th>
+          <th>Opțiuni</th>
+        </tr>
+      </thead>
+      <tbody id="pendingBody">
+        <tr><td colspan="6" style="text-align:center; font-style:italic;">Se încarcă...</td></tr>
+      </tbody>
+    </table>
+
+    <div id="pendingMsg" class="msg"></div>
+  </div>
+
+  <!-- ######################################## -->
+  <!-- ##   UTILIZATORI ACTIVI (users)        ## -->
+  <!-- ######################################## -->
+
+  <div class="section">
+    <h2>Utilizatori activi</h2>
+
+    <table id="usersTable">
+      <thead>
+        <tr>
+          <th>Nume</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Telefon</th>
+          <th>Localitate</th>
+          <th>Opțiuni</th>
+        </tr>
+      </thead>
+      <tbody id="usersBody">
+        <tr><td colspan="6" style="text-align:center; font-style:italic;">Se încarcă...</td></tr>
+      </tbody>
+    </table>
+
+    <div id="usersMsg" class="msg"></div>
+  </div>
+
+</div>
+
+<!-- ######################################################## -->
+<!-- ######################### LOGICĂ FIREBASE ############### -->
+<!-- ######################################################## -->
+
+<script type="module">
+
+import { auth, db } from "./firebase-config.js";
+import {
+  onAuthStateChanged, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail, deleteUser
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+import {
+  collection, query, where, onSnapshot, doc, setDoc, updateDoc, deleteDoc, getDoc
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+const pendingBody = document.getElementById("pendingBody");
+const usersBody = document.getElementById("usersBody");
+const pendingMsg = document.getElementById("pendingMsg");
+const usersMsg = document.getElementById("usersMsg");
+const userMenu = document.getElementById("userMenu");
+const headerUserName = document.getElementById("headerUserName");
+const logoutBtn = document.getElementById("logoutBtn");
+
+/* ##################### AUTENTIFICARE + VERIFICARE ROL ##################### */
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const snap = await getDoc(doc(db, "users", user.uid));
+  if (!snap.exists() || snap.data().rol !== "admin") {
+    alert("Acces interzis. Doar administratorii pot folosi acest dashboard.");
+    window.location.href = "index_secured.html";
+    return;
+  }
+
+  userMenu.style.display = "flex";
+  headerUserName.textContent = user.displayName || user.email;
+
+  loadPendingUsers();
+  loadActiveUsers();
+});
+
+/* ##################### CERERI ÎN AȘTEPTARE ##################### */
+
+function loadPendingUsers() {
+  const q = query(collection(db, "pendingUsers"), where("status", "==", "pending"));
+
+  onSnapshot(q, (snap) => {
+    pendingBody.innerHTML = "";
+
+    if (snap.empty) {
+      pendingBody.innerHTML = `<tr><td colspan="6" style="text-align:center;font-style:italic;">Nu există cereri noi</td></tr>`;
+      return;
+    }
+
+    snap.forEach((d) => {
+      const data = d.data();
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${data.lastName} ${data.firstName}</td>
+        <td>${data.email}</td>
+        <td>${data.phone}</td>
+        <td>${data.city}</td>
+        <td>${data.internalCode}</td>
+        <td>
+          <button class="btn-approve" data-id="${d.id}">Aprobă</button>
+          <button class="btn-reject" data-id="${d.id}">Respinge</button>
+        </td>
+      `;
+      pendingBody.appendChild(tr);
+    });
+
+    document.querySelectorAll(".btn-approve").forEach(btn => {
+      btn.onclick = () => approveRequest(btn.dataset.id);
+    });
+    document.querySelectorAll(".btn-reject").forEach(btn => {
+      btn.onclick = () => rejectRequest(btn.dataset.id);
+    });
+  });
+}
+
+/* ##################### APROBARE CERERE ##################### */
+
+async function approveRequest(id) {
+  try {
+    const ref = doc(db, "pendingUsers", id);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) return;
+
+    const data = snap.data();
+
+    // 1. Cream un user în Authentication (parola temporară)
+    const tempPassword = "Destine" + Math.floor(Math.random()*9000+1000);
+    const userCred = await createUserWithEmailAndPassword(auth, data.email, tempPassword);
+
+    // 2. Cream cont în Firestore → users
+    await setDoc(doc(db, "users", userCred.user.uid), {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      phone: data.phone,
+      city: data.city,
+      internalCode: data.internalCode,
+      rol: "asistent"
+    });
+
+    // 3. Setăm pendingUsers.status = approved
+    await updateDoc(ref, { status: "approved" });
+
+    pendingMsg.textContent = "Cerere aprobată. Cont creat cu succes.";
+    pendingMsg.className = "msg ok";
+
+    // TRIMITERE EMAIL PAROLĂ (opțional)
+    await sendPasswordResetEmail(auth, data.email);
+
+  } catch (err) {
+    console.error(err);
+    pendingMsg.textContent = "Eroare la aprobare.";
+    pendingMsg.className = "msg err";
+  }
+}
+
+async function rejectRequest(id) {
+  try {
+    await updateDoc(doc(db, "pendingUsers", id), { status: "rejected" });
+    pendingMsg.textContent = "Cererea a fost respinsă.";
+    pendingMsg.className = "msg err";
+  } catch (err) {
+    pendingMsg.textContent = "Eroare la respingere.";
+  }
+}
+
+/* ##################### UTILIZATORI ACTIVI ##################### */
+
+function loadActiveUsers() {
+  const q = collection(db, "users");
+
+  onSnapshot(q, (snap) => {
+    usersBody.innerHTML = "";
+
+    snap.forEach((d) => {
+      const data = d.data();
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${data.lastName} ${data.firstName}</td>
+        <td>${data.email}</td>
+        <td>${data.rol}</td>
+        <td>${data.phone}</td>
+        <td>${data.city}</td>
+        <td>
+          <button class="btn-role" data-id="${d.id}">Schimbă rol</button>
+          <button class="btn-reset" data-id="${d.id}">Resetare parolă</button>
+          <button class="btn-delete" data-id="${d.id}">Șterge</button>
+        </td>
+      `;
+      usersBody.appendChild(tr);
+    });
+
+    document.querySelectorAll(".btn-role").forEach(btn => {
+      btn.onclick = () => changeRole(btn.dataset.id);
+    });
+    document.querySelectorAll(".btn-reset").forEach(btn => {
+      btn.onclick = () => resetPassword(btn.dataset.id);
+    });
+    document.querySelectorAll(".btn-delete").forEach(btn => {
+      btn.onclick = () => deleteAccount(btn.dataset.id);
+    });
+
+  });
+}
+
+/* ##################### SCHIMBARE ROL ##################### */
+
+async function changeRole(uid) {
+  const newRole = prompt("Introdu rolul nou (admin, asistent, trainer, coordonator):");
+  if (!newRole) return;
+
+  try {
+    await updateDoc(doc(db, "users", uid), { rol: newRole });
+    usersMsg.textContent = "Rol actualizat.";
+    usersMsg.className = "msg ok";
+  } catch (err) {
+    usersMsg.textContent = "Eroare la actualizare.";
+    usersMsg.className = "msg err";
+  }
+}
+
+/* ##################### RESETARE PAROLĂ ##################### */
+
+async function resetPassword(uid) {
+  try {
+    const snap = await getDoc(doc(db, "users", uid));
+    if (!snap.exists()) return;
+    await sendPasswordResetEmail(auth, snap.data().email);
+
+    usersMsg.textContent = "Email de resetare trimis.";
+    usersMsg.className = "msg ok";
+  } catch (err) {
+    usersMsg.textContent = "Eroare la resetare parolă.";
+    usersMsg.className = "msg err";
+  }
+}
+
+/* ##################### ȘTERGERE CONT ##################### */
+
+async function deleteAccount(uid) {
+  if (!confirm("Ești sigur că vrei să ștergi acest cont?")) return;
+
+  try {
+    await deleteDoc(doc(db, "users", uid));
+    usersMsg.textContent = "Cont șters din Firestore.";
+    usersMsg.className = "msg ok";
+  } catch (err) {
+    usersMsg.textContent = "Eroare la ștergere.";
+    usersMsg.className = "msg err";
+  }
+}
+
+/* ##################### LOGOUT ##################### */
+
+logoutBtn.onclick = () => {
+  signOut(auth).then(() => window.location.href = "login.html");
+};
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simulator comisioane 2025 – Destine</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f4f6fb;
+      color: #222;
+    }
+    .container {
+      max-width: 1150px;
+      margin: 0 auto;
+    }
+    .page-header {
+      background: linear-gradient(90deg, #154f9c, #1d6ad1, #ff7a1a);
+      color: #fff;
+      border-radius: 16px;
+      padding: 12px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .header-left img {
+      height: 64px;
+      width: auto;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+    .brand-title {
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      margin-top: 3px;
+    }
+    .header-meta {
+      font-size: 11px;
+      text-align: right;
+      color: rgba(255,255,255,0.9);
+    }
+    h2 {
+      text-align: left;
+      margin: 18px 0 10px;
+      font-size: 18px;
+      color: #154f9c;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      border: 1px solid #dde3f0;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: #154f9c;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-top: 6px;
+      margin-bottom: 2px;
+    }
+    input, select {
+      width: 100%;
+      padding: 5px 6px;
+      font-size: 13px;
+      border-radius: 6px;
+      border: 1px solid #c5cee4;
+      box-sizing: border-box;
+      background: #fafbff;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #ff7a1a;
+      box-shadow: 0 0 0 1px rgba(255,122,26,0.25);
+      background: #ffffff;
+    }
+    .inline-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .btn-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #154f9c;
+      font-size: 12px;
+      cursor: pointer;
+      background: #ffffff;
+      color: #154f9c;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .btn:hover {
+      background: #f0f3ff;
+    }
+    .btn-reset {
+      border-color: #c5cee4;
+      color: #4b5a7a;
+    }
+    .btn-reset:hover {
+      background: #f5f7fc;
+    }
+    .results {
+      margin-top: 6px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .results strong {
+      color: #154f9c;
+    }
+    .total-card {
+      background: #154f9c;
+      color: white;
+      border-radius: 16px;
+      padding: 14px 16px 16px;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.28);
+      margin-top: 12px;
+    }
+    .total-card h3 {
+      margin-top: 0;
+      color: #fff;
+      font-size: 18px;
+    }
+    .total-values {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 6px 14px;
+      font-size: 13px;
+    }
+    .total-values div {
+      border-left: 2px solid rgba(255,255,255,0.4);
+      padding-left: 8px;
+    }
+    .small-note {
+      font-size: 11px;
+      color: #666;
+      margin-top: 4px;
+    }
+    /* Asigurări – tabel 3 coloane */
+    .asig-table {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 6px 8px;
+      align-items: center;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .asig-header {
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #4b5a7a;
+      border-bottom: 1px solid #dde3f0;
+      padding-bottom: 4px;
+    }
+    .asig-label {
+      color: #333;
+    }
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      .page-header {
+        padding: 10px 12px;
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .header-meta {
+        text-align: left;
+      }
+      .asig-table {
+        grid-template-columns: 1.2fr 1fr 1fr;
+      }
+      .btn-row {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="page-header">
+      <div class="header-inner">
+        <div class="header-left">
+          <img src="destine-broker-logo.png" alt="Destine Broker Logo">
+          <div>
+            <h1>Simulator comisioane 2025</h1>
+            <div class="brand-title">
+              Destine – Asigurări · Imobiliare · Turism · Credite
+            </div>
+          </div>
+        </div>
+        <div class="header-meta">
+          Versiune web construită pe baza fișierului<br>
+          <strong>„Simulator comisioane_01.01.2025.xlsx”</strong>
+        </div>
+      </div>
+    </header>
+
+    <!-- Setări generale -->
+    <div class="grid">
+      <div class="card">
+        <h3>Setări generale</h3>
+        <label for="nivelCariera">Nivel de carieră</label>
+        <select id="nivelCariera">
+          <option value="1">1 – ASPIRANT</option>
+          <option value="2">2 – BROKER DEBUTANT</option>
+          <option value="3">3 – BROKER</option>
+          <option value="4">4 – BROKER COORDONATOR</option>
+          <option value="5">5 – BROKER SENIOR</option>
+          <option value="6">6 – BROKER PRINCIPAL</option>
+          <option value="7">7 – BROKER ZONAL 1</option>
+          <option value="8">8 – BROKER ZONAL 2</option>
+          <option value="9">9 – BROKER REGIONAL 1</option>
+          <option value="10">10 – BROKER REGIONAL 2</option>
+          <option value="11">11 – BROKER GENERAL</option>
+        </select>
+
+        <label for="cursEur" style="margin-top:8px;">Curs EUR (Imobiliare / Turism / Credite)</label>
+        <input type="number" id="cursEur" step="0.01" value="5" />
+        <div class="small-note">
+          Cursul EUR utilizat în Excel este 5 – poți modifica după nevoie.
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. ASIGURĂRI -->
+    <h2>Asigurări</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Date de intrare</h3>
+
+        <div class="asig-table">
+          <div class="asig-header">Tip asigurare</div>
+          <div class="asig-header">Prima (RON)</div>
+          <div class="asig-header">% comision DB</div>
+
+          <div class="asig-label">RCA</div>
+          <input type="number" id="asigRca" step="0.01" value="0" />
+          <input type="number" id="asigRcaPct" step="0.01" value="12" />
+
+          <input type="text" id="asigAccName" value="ACC. PERS." />
+          <input type="number" id="asigAcc" step="0.01" value="0" />
+          <input type="number" id="asigAccPct" step="0.01" value="65" />
+
+          <input type="text" id="asigSignalName" value="SIGNAL EXPERT" />
+          <input type="number" id="asigSignal" step="0.01" value="0" />
+          <input type="number" id="asigSignalPct" step="0.01" value="50" />
+
+          <input type="text" id="asigAlteleName" value="ALTELE" />
+          <input type="number" id="asigAltele" step="0.01" value="0" />
+          <input type="number" id="asigAltelePct" step="0.01" value="30" />
+        </div>
+
+        <div class="small-note">
+          Procentele sunt preluate din foaia „Asigurari” (E6:H6) și pot fi ajustate. Denumirile (ACC, SIGNAL, ALTELE) pot fi editate.
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn" onclick="updateAsigurari()">Calculează Asigurări</button>
+          <button type="button" class="btn btn-reset" onclick="resetAsigurari()">Reset Asigurări</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Rezultate Asigurări</h3>
+        <div class="results" id="rezAsigurari"></div>
+      </div>
+    </div>
+
+    <!-- 2. IMOBILIARE -->
+    <h2>Imobiliare</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Date de intrare</h3>
+        <label>Valoare contract</label>
+        <div class="inline-2">
+          <div>
+            <label for="imobEur">Euro</label>
+            <input type="number" id="imobEur" step="0.01" value="0" />
+          </div>
+          <div>
+            <label for="imobRon">RON</label>
+            <input type="number" id="imobRon" step="0.01" value="0" />
+          </div>
+        </div>
+
+        <label for="imobPct" style="margin-top:8px;">Procent comision (%)</label>
+        <input type="number" id="imobPct" step="0.001" value="2" />
+
+        <div style="margin-top:8px;">
+          <label style="display:flex; align-items:flex-start; gap:6px; font-size:12px;">
+            <input type="checkbox" id="imobCursAgent" style="margin-top:3px;">
+            <span>Am finalizat cursul de Agent Imobiliar (activare comision Agent 50%).</span>
+          </label>
+        </div>
+
+        <div class="small-note">
+          Logica urmează foaia „Imobiliare”: Lead 25% + MLM 25% (fără curs), respectiv Agent 50% + Lead 25% + MLM 25% (cu curs).
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn" onclick="updateImobiliare()">Calculează Imobiliare</button>
+          <button type="button" class="btn btn-reset" onclick="resetImobiliare()">Reset Imobiliare</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Rezultate Imobiliare</h3>
+        <div class="results" id="rezImobiliare"></div>
+      </div>
+    </div>
+
+    <!-- 3. TURISM -->
+    <h2>Turism</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Date de intrare</h3>
+        <label>Cost pachet</label>
+        <div class="inline-2">
+          <div>
+            <label for="turEur">Euro</label>
+            <input type="number" id="turEur" step="0.01" value="0" />
+          </div>
+          <div>
+            <label for="turRon">RON</label>
+            <input type="number" id="turRon" step="0.01" value="0" />
+          </div>
+        </div>
+
+        <label for="turPct" style="margin-top:8px;">Procent comision (%)</label>
+        <input type="number" id="turPct" step="0.001" value="6" />
+
+        <div style="margin-top:8px;">
+          <label style="display:flex; align-items:flex-start; gap:6px; font-size:12px;">
+            <input type="checkbox" id="turCursPromoter" style="margin-top:3px;">
+            <span>Am finalizat cursul Promoter Turism (activare comision suplimentar 15%).</span>
+          </label>
+        </div>
+
+        <div class="small-note">
+          Logica urmează foaia „Turism”: 50% × factor carieră, iar la bifarea cursului se adaugă comision Promoter (15% din G8).
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn" onclick="updateTurism()">Calculează Turism</button>
+          <button type="button" class="btn btn-reset" onclick="resetTurism()">Reset Turism</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Rezultate Turism</h3>
+        <div class="results" id="rezTurism"></div>
+      </div>
+    </div>
+
+    <!-- 4. CREDITE -->
+    <h2>Credite</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Date de intrare</h3>
+        <label>Valoare contract</label>
+        <div class="inline-2">
+          <div>
+            <label for="credEur">Euro</label>
+            <input type="number" id="credEur" step="0.01" value="0" />
+          </div>
+          <div>
+            <label for="credRon">RON</label>
+            <input type="number" id="credRon" step="0.01" value="0" />
+          </div>
+        </div>
+
+        <label for="credPct" style="margin-top:8px;">Procent comision (%)</label>
+        <input type="number" id="credPct" step="0.001" value="1.5" />
+
+        <div class="small-note">
+          Logica urmează foaia „Credite”: comision = G8 × procent carieră (D11:D21).
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn" onclick="updateCredite()">Calculează Credite</button>
+          <button type="button" class="btn btn-reset" onclick="resetCredite()">Reset Credite</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Rezultate Credite</h3>
+        <div class="results" id="rezCredite"></div>
+      </div>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="total-card">
+      <h3>Total comision (nivelul selectat)</h3>
+      <div class="total-values" id="rezTotal"></div>
+      <div class="small-note">
+        Total = <strong>Asigurări + Imobiliare + Turism + Credite</strong>, în logica foii „Total comision”
+        (fără indicatorii suplimentari N5/O6/K6/J6). Se actualizează automat la orice modificare.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================
+    // TABELE DE CARIERĂ – din Excel
+    // ============================
+
+    const CAREER_ASIG = {
+      1:  { name: "ASPIRANT",          j: 10.7, k: 0.466833333333333 },
+      2:  { name: "BROKER DEBUTANT",   j: 20.1, k: 0.517 },
+      3:  { name: "BROKER",            j: 29.2, k: 0.565666666666667 },
+      4:  { name: "BROKER COORDONATOR",j: 42.5, k: 0.636833333333333 },
+      5:  { name: "BROKER SENIOR",     j: 49.2, k: 0.672666666666667 },
+      6:  { name: "BROKER PRINCIPAL",  j: 54.5, k: 0.701 },
+      7:  { name: "BROKER ZONAL 1",    j: 59.1, k: 0.725666666666667 },
+      8:  { name: "BROKER ZONAL 2",    j: 63.2, k: 0.747555555555556 },
+      9:  { name: "BROKER REGIONAL 1", j: 66.8, k: 0.766833333333334 },
+      10: { name: "BROKER REGIONAL 2", j: 70,   k: 0.783944444444445 },
+      11: { name: "BROKER GENERAL",    j: 73,   k: 0.8 }
+    };
+
+    const CAREER_IMOB = {
+      1: 10.7, 2: 20.1, 3: 29.2, 4: 42.5, 5: 49.2,
+      6: 54.5, 7: 59.1, 8: 63.2, 9: 66.8, 10: 70, 11: 73
+    };
+
+    const CAREER_TUR = {
+      1: 0.405,
+      2: 0.4532,
+      3: 0.4999,
+      4: 0.5682,
+      5: 0.6026,
+      6: 0.6299,
+      7: 0.6515,
+      8: 0.6746,
+      9: 0.6931,
+      10: 0.7095,
+      11: 0.7249
+    };
+
+    const CAREER_CRED = {
+      1: 30,
+      2: 36.5,
+      3: 42.7,
+      4: 52,
+      5: 56.6,
+      6: 60.2,
+      7: 63.4,
+      8: 66.2,
+      9: 68.7,
+      10: 70.9,
+      11: 73
+    };
+
+    function val(id) {
+      const el = document.getElementById(id);
+      if (!el) return 0;
+      const v = el.value;
+      return v === "" ? 0 : parseFloat(v);
+    }
+
+    function formatRon(x) {
+      if (!isFinite(x)) return "-";
+      return x.toFixed(2) + " RON";
+    }
+
+    // ============================
+    // ASIGURĂRI
+    // ============================
+    function calcAsigurari(nivel) {
+      const cfg = CAREER_ASIG[nivel];
+      if (!cfg) return { total: 0, details: "Nivel invalid." };
+
+      const primaRca    = val("asigRca");
+      const primaAcc    = val("asigAcc");
+      const primaSignal = val("asigSignal");
+      const primaAltele = val("asigAltele");
+
+      const pctRcaDB    = val("asigRcaPct")    / 100;
+      const pctAccDB    = val("asigAccPct")    / 100;
+      const pctSignalDB = val("asigSignalPct") / 100;
+      const pctAlteleDB = val("asigAltelePct") / 100;
+
+      const j = cfg.j / 100;
+      const k = cfg.k;
+
+      const pctRcaColab = k * pctRcaDB;
+      const comRca      = primaRca * pctRcaColab;
+
+      const comAcc      = primaAcc    * pctAccDB    * j;
+      const comSignal   = primaSignal * pctSignalDB * j;
+      // ALTELE – aceeași formulă ca SIGNAL: prime × %DB × j
+      const comAltele   = primaAltele * pctAlteleDB * j;
+
+      const total = comRca + comAcc + comSignal + comAltele;
+
+      const details =
+        "<strong>Nivel:</strong> " + cfg.name + "<br>" +
+        "RCA: " + formatRon(comRca) + "<br>" +
+        document.getElementById("asigAccName").value + ": " + formatRon(comAcc) + "<br>" +
+        document.getElementById("asigSignalName").value + ": " + formatRon(comSignal) + "<br>" +
+        document.getElementById("asigAlteleName").value + ": " + formatRon(comAltele) + "<br>" +
+        "<strong>Total Asigurări:</strong> " + formatRon(total);
+
+      return { total, details };
+    }
+
+    // ============================
+    // IMOBILIARE
+    // ============================
+    function calcImobiliare(nivel, curs) {
+      const pctCariera = (CAREER_IMOB[nivel] || 0) / 100;
+
+      const valEur  = val("imobEur");
+      const valRon  = val("imobRon");
+      const pctCom  = val("imobPct") / 100;
+
+      const comMonedaEur = valEur * pctCom;
+      const comMonedaRon = valRon * pctCom;
+
+      const G6 = comMonedaEur * curs;
+      const G7 = comMonedaRon;
+      const G8 = G6 + G7;
+
+      // I8 – factor grilă în funcție de G8/C4 (comision în EUR)
+      let factor = 0;
+      if (curs > 0) {
+        const comEur = G8 / curs;
+        if (comEur <= 1000) {
+          factor = 0.5;
+        } else if (comEur <= 1500) {
+          factor = 0.55;
+        } else if (comEur <= 2000) {
+          factor = 0.6;
+        } else if (comEur <= 3000) {
+          factor = 0.65;
+        } else if (comEur <= 4000) {
+          factor = 0.7;
+        } else {
+          factor = 0.75;
+        }
+      }
+
+      const E11_agent = G8 * factor * 0.5;
+      const E12_lead  = G8 * factor * 0.25;
+      const ELevel    = G8 * factor * 0.25 * pctCariera;
+
+      const areCursAgent =
+        !!document.getElementById("imobCursAgent") &&
+        document.getElementById("imobCursAgent").checked;
+
+      let totalLevel;
+      if (areCursAgent) {
+        totalLevel = E11_agent + E12_lead + ELevel;
+      } else {
+        totalLevel = E12_lead + ELevel;
+      }
+
+      const details =
+        "Comision total calculat (G8): " + formatRon(G8) + "<br>" +
+        "Factor grilă (I8): " + factor.toFixed(2) + "<br>" +
+        "Comision Agent 50%: " + formatRon(E11_agent) + "<br>" +
+        "Comision Lead 25%: " + formatRon(E12_lead) + "<br>" +
+        "Comision MLM (25% × procent carieră): " + formatRon(ELevel) + "<br>" +
+        "Curs Agent Imobiliar: " + (areCursAgent ? "DA (50% inclus)" : "NU (fără 50%)") + "<br>" +
+        "<strong>Total Imobiliare (nivel ales):</strong> " + formatRon(totalLevel);
+
+      return { total: totalLevel, details };
+    }
+
+    // ============================
+    // TURISM
+    // ============================
+    function calcTurism(nivel, curs) {
+      const factorCariera = CAREER_TUR[nivel] || 0;
+
+      const valEur = val("turEur");
+      const valRon = val("turRon");
+      const pctCom = val("turPct") / 100;
+
+      const comMonedaEur = valEur * pctCom;
+      const comMonedaRon = valRon * pctCom;
+
+      const G6 = comMonedaEur * curs;
+      const G7 = comMonedaRon;
+      const G8 = G6 + G7;
+
+      const comBroker   = G8 * factorCariera * 0.5;
+      const comPromoter = G8 * 0.15; // 15% conform E11 = G8*15%
+
+      const areCursPromoter =
+        !!document.getElementById("turCursPromoter") &&
+        document.getElementById("turCursPromoter").checked;
+
+      let total;
+      if (areCursPromoter) {
+        total = comBroker + comPromoter;
+      } else {
+        total = comBroker;
+      }
+
+      const details =
+        "Comision total pachet (G8): " + formatRon(G8) + "<br>" +
+        "Factor carieră D: " + factorCariera.toFixed(4) + "<br>" +
+        "Comision broker (50% × D): " + formatRon(comBroker) + "<br>" +
+        "Comision Promoter (15%): " + formatRon(comPromoter) + "<br>" +
+        "Curs Promoter Turism: " + (areCursPromoter ? "DA (15% inclus)" : "NU (fără 15%)") + "<br>" +
+        "<strong>Total Turism (nivel ales):</strong> " + formatRon(total);
+
+      return { total, details };
+    }
+
+    // ============================
+    // CREDITE
+    // ============================
+    function calcCredite(nivel, curs) {
+      const pctCariera = (CAREER_CRED[nivel] || 0) / 100;
+
+      const valEur = val("credEur");
+      const valRon = val("credRon");
+      const pctCom = val("credPct") / 100;
+
+      const comMonedaEur = valEur * pctCom;
+      const comMonedaRon = valRon * pctCom;
+
+      const G6 = comMonedaEur * curs;
+      const G7 = comMonedaRon;
+      const G8 = G6 + G7;
+
+      const total = G8 * pctCariera;
+
+      const details =
+        "Comision contract (G8): " + formatRon(G8) + "<br>" +
+        "Procent nivel carieră D: " + (pctCariera * 100).toFixed(1) + "%<br>" +
+        "<strong>Total Credite (nivel ales):</strong> " + formatRon(total);
+
+      return { total, details };
+    }
+
+    // ============================
+    // UPDATE GLOBAL
+    // ============================
+    function calculeazaTot() {
+      const nivel = parseInt(document.getElementById("nivelCariera").value, 10);
+      const curs  = val("cursEur");
+
+      const rezA = calcAsigurari(nivel);
+      const rezI = calcImobiliare(nivel, curs);
+      const rezT = calcTurism(nivel, curs);
+      const rezC = calcCredite(nivel, curs);
+
+      document.getElementById("rezAsigurari").innerHTML = rezA.details;
+      document.getElementById("rezImobiliare").innerHTML = rezI.details;
+      document.getElementById("rezTurism").innerHTML = rezT.details;
+      document.getElementById("rezCredite").innerHTML = rezC.details;
+
+      const total = rezA.total + rezI.total + rezT.total + rezC.total;
+
+      const totalHtml =
+        "<div><strong>Asigurări:</strong> " + formatRon(rezA.total) + "</div>" +
+        "<div><strong>Imobiliare:</strong> " + formatRon(rezI.total) + "</div>" +
+        "<div><strong>Turism:</strong> "    + formatRon(rezT.total) + "</div>" +
+        "<div><strong>Credite:</strong> "   + formatRon(rezC.total) + "</div>" +
+        "<div><strong style='font-size:15px;'>TOTAL:</strong> " +
+        "<strong style='font-size:15px;'>" + formatRon(total) + "</strong></div>";
+
+      document.getElementById("rezTotal").innerHTML = totalHtml;
+    }
+
+    // Funcții pentru butoanele per domeniu (apelează recalculul global)
+    function updateAsigurari()  { calculeazaTot(); }
+    function updateImobiliare() { calculeazaTot(); }
+    function updateTurism()     { calculeazaTot(); }
+    function updateCredite()    { calculeazaTot(); }
+
+    // Reseturi per domeniu (șterg doar sumele + bifele relevante)
+    function resetAsigurari() {
+      document.getElementById("asigRca").value = 0;
+      document.getElementById("asigAcc").value = 0;
+      document.getElementById("asigSignal").value = 0;
+      document.getElementById("asigAltele").value = 0;
+      calculeazaTot();
+    }
+    function resetImobiliare() {
+      document.getElementById("imobEur").value = 0;
+      document.getElementById("imobRon").value = 0;
+      document.getElementById("imobCursAgent").checked = false;
+      calculeazaTot();
+    }
+    function resetTurism() {
+      document.getElementById("turEur").value = 0;
+      document.getElementById("turRon").value = 0;
+      document.getElementById("turCursPromoter").checked = false;
+      calculeazaTot();
+    }
+    function resetCredite() {
+      document.getElementById("credEur").value = 0;
+      document.getElementById("credRon").value = 0;
+      calculeazaTot();
+    }
+
+    // Auto-update la orice modificare (total calculat automat)
+    function attachAutoUpdate() {
+      const ids = [
+        "nivelCariera","cursEur",
+        "asigRca","asigAcc","asigSignal","asigAltele",
+        "asigRcaPct","asigAccPct","asigSignalPct","asigAltelePct",
+        "imobEur","imobRon","imobPct",
+        "turEur","turRon","turPct",
+        "credEur","credRon","credPct"
+      ];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", calculeazaTot);
+        }
+      });
+      ["imobCursAgent","turCursPromoter"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("change", calculeazaTot);
+        }
+      });
+    }
+
+    window.addEventListener("load", () => {
+      attachAutoUpdate();
+      calculeazaTot();
+    });
+  </script>
+</body>
+</html>

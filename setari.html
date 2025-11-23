@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Setări – Destine Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- STILURI -->
+  <style>
+    body {
+      margin:0;
+      font-family: system-ui, sans-serif;
+      background:#f4f6fb;
+      color:#222;
+    }
+
+    header {
+      background: linear-gradient(90deg, #154f9c, #1d6ad1, #ff7a1a);
+      padding:16px 20px;
+      color:#fff;
+      font-size:20px;
+      font-weight:600;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .user-menu {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      font-size:14px;
+      font-weight:500;
+    }
+    .user-name {
+      color:#fff;
+      background:rgba(255,255,255,0.18);
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.35);
+    }
+    .header-link {
+      color:#fff;
+      text-decoration:none;
+      padding:6px 12px;
+      border-radius:8px;
+      font-weight:600;
+    }
+    .header-link:hover {
+      background:rgba(0,0,0,0.18);
+    }
+
+    .container {
+      max-width:900px;
+      margin:30px auto;
+      background:#fff;
+      padding:26px;
+      border-radius:16px;
+      box-shadow:0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    h2 { margin-top:0; font-size:26px; color:#0f3970; }
+
+    .setting-block {
+      background:#f8faff;
+      border:1px solid #d6dded;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:24px;
+    }
+
+    .setting-title {
+      font-size:18px;
+      font-weight:700;
+      color:#154f9c;
+      margin-bottom:8px;
+    }
+
+    .setting-desc {
+      font-size:14px;
+      color:#555;
+      margin-bottom:12px;
+    }
+
+    .btn {
+      display:inline-block;
+      padding:10px 18px;
+      border-radius:999px;
+      background:#154f9c;
+      color:#fff;
+      font-weight:600;
+      text-decoration:none;
+    }
+    .btn:hover { background:#0f3970; }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div>🔧 Setări Administrator</div>
+
+  <div class="user-menu" id="userMenu" style="display:none;">
+    <span class="user-name" id="headerUserName">Utilizator</span>
+    <a href="profil.html" class="header-link">Profil</a>
+    <a id="logoutBtn" class="header-link">Logout</a>
+  </div>
+</header>
+
+<div class="container">
+  <h2>Setări platformă</h2>
+
+  <div class="setting-block">
+    <div class="setting-title">Gestionare roluri utilizatori</div>
+    <div class="setting-desc">Modifică rolul unui utilizator (asistent, trainer, coordonator, admin).</div>
+    <a class="btn" href="#">Deschide modul</a>
+  </div>
+
+  <div class="setting-block">
+    <div class="setting-title">Parametri platformă</div>
+    <div class="setting-desc">Setează parametri globali pentru site (logo, culori, acces, scripturi).</div>
+    <a class="btn" href="#">Configurează</a>
+  </div>
+
+  <div class="setting-block">
+    <div class="setting-title">Administrarea mesajelor email</div>
+    <div class="setting-desc">Personalizează mesajele trimise automat la înregistrare, aprobare, resetare parolă.</div>
+    <a class="btn" href="#">Deschide editor</a>
+  </div>
+</div>
+
+<!-- 🔥 LOGICĂ FIREBASE -->
+<script type="module">
+  import { auth, db } from "./firebase-config.js";
+  import { onAuthStateChanged, signOut }
+    from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { doc, getDoc }
+    from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+  const userMenu = document.getElementById("userMenu");
+  const headerUserName = document.getElementById("headerUserName");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  // Protecție 100% ADMIN
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) window.location.href = "login.html";
+
+    const snap = await getDoc(doc(db, "users", user.uid));
+    if (!snap.exists() || snap.data().rol !== "admin") {
+      alert("Acces interzis. Doar admin.");
+      window.location.href = "index.html";
+      return;
+    }
+
+    userMenu.style.display = "flex";
+    headerUserName.textContent = user.displayName || user.email;
+  });
+
+  logoutBtn.onclick = () => {
+    signOut(auth).then(() => window.location.href = "login.html");
+  };
+</script>
+
+</body>
+</html>

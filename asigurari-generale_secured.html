@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Asigurări Generale – Destine Broker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root {
+      --destine-blue: #154f9c;
+      --destine-blue-dark: #0f3970;
+      --destine-orange: #ff7a1a;
+      --bg-light: #f4f6fb;
+      --card-border: #dde3f0;
+      --text-main: #222;
+      --text-muted: #5a6a8a;
+      --radius-lg: 16px;
+      --shadow-soft: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-light);
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(90deg, #154f9c, #1d6ad1, #ff7a1a);
+      padding: 14px 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    }
+    header img { height: 52px; }
+    .nav-link {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.4);
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .nav-link:hover {
+      background: rgba(0,0,0,0.12);
+    }
+
+    /* HERO */
+    .hero {
+      padding: 30px 0 15px;
+    }
+    .hero h1 {
+      font-size: 30px;
+      color: var(--destine-blue-dark);
+      margin: 0 0 10px;
+    }
+    .hero p {
+      max-width: 700px;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: var(--destine-blue);
+      color: #fff;
+      font-weight: 600;
+      margin-top: 14px;
+      box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+    }
+    .btn:hover { background: var(--destine-blue-dark); }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: var(--destine-blue-dark);
+    }
+    .card p { font-size: 13px; color: var(--text-muted); }
+
+    /* SECTIUNI */
+    section { margin-top: 36px; }
+
+    .section-title {
+      font-size: 22px;
+      color: var(--destine-blue-dark);
+      margin-bottom: 8px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #f0f2f8;
+      padding: 15px 20px;
+      color: #555;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 40px;
+      border-top: 1px solid #d7dce9;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- SECURIZARE LOGIN -->
+<script type="module">
+  import { auth } from "./firebase-config.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  onAuthStateChanged(auth, (user) => { if (!user) window.location.href = "login.html"; });
+</script>
+
+
+<header>
+  <div>
+    <img src="destine-broker-logo.png" alt="Destine">
+  </div>
+  <div>
+    <a href="index.html" class="nav-link">🏠 Înapoi la pagina principală</a>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Asigurări Generale</h1>
+    <p>
+      Asigurările generale sunt domeniul principal de activitate pentru un Asistent în Brokeraj Destine.
+      Aici se intermediază polițe pentru persoane fizice și juridice: RCA, CASCO, locuință, sănătate, călătorie,
+      proprietăți comerciale și multe altele. Scopul este protecția clientului și oferirea celei mai bune soluții.
+    </p>
+    <a href="Simulator_Comisioane_2025_PREMIUM_V4_FINAL.html" class="btn">🧮 Deschide Simulator Comisioane</a>
+  </section>
+
+  <!-- Produse principale -->
+  <section>
+    <h2 class="section-title">Produse principale în Asigurări Generale</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>🚗 Asigurări Auto (RCA & CASCO)</h3>
+        <p>
+          Produsul cu cel mai mare volum. Consultanță, ofertare, comparare și emitere rapidă. 
+          Asigurarea CASCO include acoperiri extinse (furt, avarii, vandalism, dezastre).
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🏡 Locuință & Bunuri</h3>
+        <p>
+          PAD + facultativă, acoperiri pentru incendiu, explozii, inundații, furt, fenomene meteo și avarii la instalații.
+          Produs ideal pentru clienții cu locuințe proprii sau chiriași.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>✈️ Asigurări de călătorie</h3>
+        <p>
+          Preferate în sezonul de vacanță: medicală, bagaje, anulare, sporturi extreme.
+          Emiterea durează 1 minut — un avantaj enorm pentru clienți.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🧑‍⚕️ Sănătate și accidente</h3>
+        <p>
+          Polițe pentru intervenții medicale, spitalizare, accidente personale, fracturi, arsuri.
+          Din ce în ce mai căutate în mediul corporate și de familii cu copii.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🏢 Asigurări corporate</h3>
+        <p>
+          Flote auto, clădiri industriale, răspunderi profesionale, garanții contractuale, asigurări agricole.
+          Domeniu cu potențial ridicat pentru dezvoltarea portofoliului.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Rolul asistentului -->
+  <section>
+    <h2 class="section-title">Rolul Asistentului în Brokeraj</h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>🔍 Analiza nevoilor clientului</h3>
+        <p>
+          Asistentul identifică riscurile, explică acoperirile și propune soluții corecte, respectând legislația ASF.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>📄 Oferte & emitere polițe</h3>
+        <p>
+          Compară oferte de la toți asigurătorii parteneri și emite polițele direct în platforma Destine.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🤝 Relația cu clientul</h3>
+        <p>
+          Construirea unei relații de încredere, recomandări, reînnoiri automate și prezentarea beneficiilor reale.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🛠 Administrare & daune</h3>
+        <p>
+          Informarea clientului despre procedurile de daună, documente necesare și asistarea în proces.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comisioane -->
+  <section>
+    <h2 class="section-title">Comisioane în Asigurări Generale</h2>
+
+    <div class="card">
+      <p>
+        Conform ROF și regulamentelor Destine, comisioanele sunt stabilite în funcție de:
+      </p>
+      <ul>
+        <li>tipul produsului (RCA, CASCO, locuință, corporate etc.)</li>
+        <li>asigurătorul partener</li>
+        <li>treapta de carieră a asistentului</li>
+        <li>volumul de producție (puncte)</li>
+      </ul>
+
+      <p style="margin-top:10px;">
+        Pentru o estimare simplă și rapidă a veniturilor tale, folosește Simulatorul de Comisioane:
+      </p>
+
+      <a href="Simulator_Comisioane_2025_PREMIUM_V4_FINAL.html" class="btn">🧮 Calculează comisionul tău</a>
+    </div>
+  </section>
+
+  <!-- Exemple reale -->
+  <section>
+    <h2 class="section-title">Exemple rapide de situații reale</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>🟦 Exemplu RCA</h3>
+        <p>
+          Prima: 800 lei → Comision mediu 8%  
+          <strong>Venit: 64 lei</strong>  
+          (durata emitere: 1 minut)
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🟧 Exemplu CASCO</h3>
+        <p>
+          Prima: 2.500 lei → Comision mediu 10–12%  
+          <strong>Venit: 250–300 lei</strong>
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🟩 Exemplu Locuință</h3>
+        <p>
+          Prima: 450 lei (PAD + facultativă) → Comision 15–18%  
+          <strong>Venit: 67–81 lei</strong>
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🟪 Exemplu corporate</h3>
+        <p>
+          Poliță industrială: 12.000 lei → Comision 8–10%  
+          <strong>Venit: 960–1.200 lei</strong>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © Destine Broker de Asigurare–Reasigurare · Asigurări Generale · Parte din platforma pentru Asistenți în Brokeraj
+</footer>
+
+</body>
+</html>

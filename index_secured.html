@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Destine Broker – Platformă Asistenți în Brokeraj</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --destine-blue: #154f9c;
+      --destine-blue-dark: #0f3970;
+      --destine-orange: #ff7a1a;
+      --bg-light: #f4f6fb;
+      --card-border: #dde3f0;
+      --text-main: #222;
+      --text-muted: #5a6a8a;
+      --radius-lg: 16px;
+      --shadow-soft: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-light);
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Layout de bază */
+
+    .container {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 0 20px 32px;
+    }
+
+    header.site-header {
+      background: linear-gradient(90deg, #154f9c, #1d6ad1, #ff7a1a);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .header-inner {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 14px 20px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-wrap {
+      background: rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    }
+
+    .logo-wrap img {
+      height: 52px;
+      width: auto;
+      display: block;
+    }
+
+    .site-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .site-title h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .site-title .subtitle {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+
+    .nav-link {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.45);
+      background: rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      background: rgba(0,0,0,0.18);
+      transform: translateY(-1px);
+    }
+
+    .nav-link.primary {
+      background: #fff;
+      color: var(--destine-blue-dark);
+      border-color: transparent;
+      font-weight: 600;
+    }
+
+    .nav-link.primary:hover {
+      background: #f1f4ff;
+    }
+
+    /* HERO */
+
+    .hero {
+      background: linear-gradient(145deg, #ffffff 0%, #f4f6fb 40%, #e6efff 100%);
+      padding: 26px 0 24px;
+      border-bottom: 1px solid #dde3f0;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--destine-orange);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: 26px;
+      color: var(--destine-blue-dark);
+    }
+
+    .hero-lead {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 560px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 9px 18px;
+      border: 1px solid var(--destine-blue);
+      background: #fff;
+      color: var(--destine-blue-dark);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+    }
+
+    .btn span.icon {
+      font-size: 15px;
+      transform: translateY(1px);
+    }
+
+    .btn:hover {
+      background: #f3f6ff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.14);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--destine-blue-dark), var(--destine-blue));
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #133a72, #165cad);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: rgba(21,79,156,0.35);
+      box-shadow: none;
+    }
+
+    .hero-highlight {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .hero-highlight span {
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(21,79,156,0.06);
+      border: 1px dashed rgba(21,79,156,0.18);
+    }
+
+    .hero-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 14px 14px 16px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--card-border);
+      font-size: 13px;
+    }
+
+    .hero-card h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+      color: var(--destine-blue-dark);
+    }
+
+    .hero-card ul {
+      padding-left: 18px;
+      margin: 6px 0 0;
+    }
+
+    .hero-card li {
+      margin-bottom: 3px;
+    }
+
+    /* Secțiuni generice */
+
+    section {
+      padding: 22px 0 10px;
+    }
+
+    section + section {
+      border-top: 1px solid #e0e4f0;
+      margin-top: 8px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 18px;
+      color: var(--destine-blue-dark);
+    }
+
+    .section-header p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: 480px;
+    }
+
+    /* Domenii de activitate */
+
+    .domains-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .domain-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 13px 13px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .domain-kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--destine-orange);
+      font-weight: 600;
+    }
+
+    .domain-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .domain-icon {
+      font-size: 20px;
+      padding: 4px 8px;
+    }
+
+    .domain-card h3 {
+      margin: 0;
+      font-size: 15px;
+      color: var(--destine-blue-dark);
+    }
+
+    .domain-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      min-height: 40px;
+    }
+
+    .domain-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .domain-tags span {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #f4f6fb;
+      border: 1px solid #e0e4f5;
+    }
+
+    .domain-footer {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .domain-footer small {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .link-chip {
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(21,79,156,0.28);
+      color: var(--destine-blue-dark);
+      background: rgba(255,255,255,0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .link-chip span.icon {
+      font-size: 14px;
+    }
+
+    .link-chip:hover {
+      background: #f3f7ff;
+    }
+
+    /* Carieră */
+
+    .career-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .career-card,
+    .career-side-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 13px 13px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      font-size: 12px;
+    }
+
+    .career-card h3,
+    .career-side-card h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+      color: var(--destine-blue-dark);
+    }
+
+    .career-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .career-step-pill {
+      padding: 5px 7px;
+      border-radius: 9px;
+      background: #f4f6fb;
+      border: 1px solid #e0e4f5;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    .career-step-pill span.label {
+      font-weight: 600;
+      color: var(--destine-blue-dark);
+      display: block;
+    }
+
+    .career-side-card ul {
+      margin: 6px 0 0;
+      padding-left: 16px;
+    }
+
+    .career-side-card li {
+      margin-bottom: 3px;
+    }
+
+    /* Documente & instrumente */
+
+    .cards-grid-small {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .doc-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 10px 12px 11px;
+      border: 1px solid var(--card-border);
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .doc-title {
+      font-weight: 600;
+      color: var(--destine-blue-dark);
+      font-size: 13px;
+    }
+
+    .doc-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .doc-actions {
+      margin-top: 4px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #eef1fb;
+      color: var(--destine-blue-dark);
+      border: 1px solid #d4dcf6;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .tool-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 10px 12px 12px;
+      border: 1px solid var(--card-border);
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .tool-card h3 {
+      margin: 0;
+      font-size: 14px;
+      color: var(--destine-blue-dark);
+    }
+
+    .tool-card p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Contact & footer */
+
+    .contact-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 10px 12px 14px;
+      border: 1px solid var(--card-border);
+      font-size: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .contact-card h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      color: var(--destine-blue-dark);
+    }
+
+    .contact-card p {
+      margin: 2px 0;
+    }
+
+    footer.site-footer {
+      border-top: 1px solid #dde3f0;
+      background: #f7f8fd;
+      padding: 10px 16px 14px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .footer-inner {
+      max-width: 1150px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 880px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .contact-card {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .career-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding-inline: 14px;
+      }
+      .hero {
+        padding-top: 20px;
+      }
+      .hero h2 {
+        font-size: 22px;
+      }
+      .site-title h1 {
+        font-size: 19px;
+      }
+      .header-inner {
+        padding-inline: 14px;
+      }
+      .hero-card {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SECURIZARE LOGIN -->
+<script type="module">
+  import { auth } from "./firebase-config.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  onAuthStateChanged(auth, (user) => { if (!user) window.location.href = "login.html"; });
+</script>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-left">
+        <div class="logo-wrap">
+          <!-- Înlocuiește cu calea reală către logo -->
+          <img src="destine-broker-logo.png" alt="Destine Broker Logo">
+        </div>
+        <div class="site-title">
+          <h1>Platformă Asistenți în Brokeraj</h1>
+          <div class="subtitle">
+            Destine Broker de Asigurare–Reasigurare · Asigurări · Imobiliare · Turism · Credite · Pensii
+          </div>
+        </div>
+      </div>
+      <nav class="header-nav">
+        <a href="#domenii" class="nav-link">Domenii de activitate</a>
+        <a href="#cariera" class="nav-link">Carieră & Distincții</a>
+        <a href="#documente" class="nav-link">Regulamente & Cod Etic</a>
+        <a href="#instrumente" class="nav-link">Instrumente</a>
+        <a href="#contact" class="nav-link">Contact & Suport</a>
+        <a href="#simulator" class="nav-link primary">Simulator comisioane</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- CONȚINUT -->
+  <main class="container">
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-kicker">Bine ai venit în Destine</div>
+          <h2>Descoperă toate domeniile în care poți activa ca Asistent în Brokeraj</h2>
+          <p class="hero-lead">
+            Destine Broker de Asigurare–Reasigurare îți oferă o oportunitate de carieră într-un ecosistem
+            profesionist, reglementat și orientat spre dezvoltare. Aici vezi, dintr-o privire, unde poți lucra,
+            cum este construit sistemul de carieră și ce instrumente ai la dispoziție.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#domenii" class="btn btn-primary">
+              <span class="icon">➡️</span>
+              <span>Începe cu domeniile de activitate</span>
+            </a>
+            <a href="#cariera" class="btn btn-ghost">
+              <span class="icon">📈</span>
+              <span>Vezi cum poți crește în carieră</span>
+            </a>
+          </div>
+
+          <div class="hero-highlight">
+            <span>18+ ani de experiență în brokeraj</span>
+            <span>Top 3 brokeri la nivel național (prime intermediate)</span>
+            <span>Sistem de carieră cu 11 trepte și bonusuri</span>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <h3>Ce este Destine Broker de Asigurare–Reasigurare?</h3>
+          <p>
+            O companie specializată în consultanță și intermediere în asigurări, parte din grupul Destine Holding,
+            autorizată ASF și prezentă în toată țara prin rețea de asistenți în brokeraj și reprezentanțe locale.
+          </p>
+          <ul>
+            <li>Consiliere și analiză a riscurilor pentru clienți;</li>
+            <li>Ofertare, negociere și selecție de produse de asigurare;</li>
+            <li>Administrarea contractelor de asigurare;</li>
+            <li>Asistență în caz de daune;</li>
+            <li>Servicii multiple: asigurări, credite, leasing, turism, pensii.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- DOMENII -->
+    <section id="domenii">
+      <div class="section-header">
+        <h2>Domenii în care poți activa ca Asistent în Brokeraj</h2>
+        <p>
+          Fiecare domeniu are produse dedicate, comisioane specifice și propriile oportunități de dezvoltare.
+          Poți alege unul singur sau le poți combina în funcție de planul tău de carieră.
+        </p>
+      </div>
+
+      <div class="domains-grid">
+        <!-- Asigurări generale -->
+        <article class="domain-card">
+          <div class="domain-kicker">Domeniu principal</div>
+          <div class="domain-title-row">
+            <h3>Asigurări generale</h3>
+            <div class="domain-icon">🛡️</div>
+          </div>
+          <p class="domain-desc">
+            Intermediere de polițe RCA, CASCO, locuință, răspundere civilă, călătorie și alte tipuri de asigurări generale,
+            pentru persoane fizice și juridice.
+          </p>
+          <div class="domain-tags">
+            <span>RCA &amp; CASCO</span>
+            <span>Locuință &amp; bunuri</span>
+            <span>Asigurări corporate</span>
+          </div>
+          <div class="domain-footer">
+            <small>Pagina dedicată: produse, comisioane, exemple, proceduri.</small>
+            <!-- TODO: actualizează href cu pagina reală -->
+            <a href="asigurari-generale.html" class="link-chip">
+              <span class="icon">👉</span>
+              <span>Intră în pagina Asigurări</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Asigurări de viață -->
+        <article class="domain-card">
+          <div class="domain-kicker">Protecția vieții</div>
+          <div class="domain-title-row">
+            <h3>Asigurări de viață</h3>
+            <div class="domain-icon">👨‍👩‍👧‍👦</div>
+          </div>
+          <p class="domain-desc">
+            Programe de protecție și economisire pe termen lung, cu acumulare de capital sau componentă investițională.
+            Domeniu strategic pentru sistemul de carieră și bonusuri.
+          </p>
+          <div class="domain-tags">
+            <span>Viață &amp; sănătate</span>
+            <span>Economisire &amp; investiții</span>
+            <span>Comisioane speciale</span>
+          </div>
+          <div class="domain-footer">
+            <small>Vezi factorii, comisioanele și exemplele de calcul.</small>
+            <a href="asigurari-viata.html" class="link-chip">
+              <span class="icon">📄</span>
+              <span>Intră în pagina Viață</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Credite & leasing -->
+        <article class="domain-card">
+          <div class="domain-kicker">Servicii financiare</div>
+          <div class="domain-title-row">
+            <h3>Credite &amp; leasing</h3>
+            <div class="domain-icon">💳</div>
+          </div>
+          <p class="domain-desc">
+            Recomandarea și intermedierea de soluții de creditare prin partenerii bancari și non-bancari ai Destine:
+            credite ipotecare, de nevoi personale, leasing, IFN.
+          </p>
+          <div class="domain-tags">
+            <span>Credite bancare</span>
+            <span>Leasing &amp; IFN</span>
+            <span>Parteneriate multiple</span>
+          </div>
+          <div class="domain-footer">
+            <small>Proces, eligibilitate, comisioane și flux de lucru.</small>
+            <a href="credite-leasing.html" class="link-chip">
+              <span class="icon">🏦</span>
+              <span>Intră în pagina Credite</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Imobiliare -->
+        <article class="domain-card">
+          <div class="domain-kicker">Servicii conexe</div>
+          <div class="domain-title-row">
+            <h3>Imobiliare – Destine Imobiliare</h3>
+            <div class="domain-icon">🏠</div>
+          </div>
+          <p class="domain-desc">
+            Recomandarea și intermedierea de tranzacții imobiliare. Comisionul crește dacă finalizezi cursul
+            de Agent Imobiliar și devii specialist dedicat clienților tăi.
+          </p>
+          <div class="domain-tags">
+            <span>Vânzare &amp; închiriere</span>
+            <span>Curs Agent Imobiliar</span>
+            <span>Extra comision</span>
+          </div>
+          <div class="domain-footer">
+            <small>Cum funcționează comisionul și ce pași ai de urmat.</small>
+            <a href="imobiliare.html" class="link-chip">
+              <span class="icon">📊</span>
+              <span>Intră în pagina Imobiliare</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Turism -->
+        <article class="domain-card">
+          <div class="domain-kicker">Travel & experiențe</div>
+          <div class="domain-title-row">
+            <h3>Turism – Destine Holidays</h3>
+            <div class="domain-icon">✈️</div>
+          </div>
+          <p class="domain-desc">
+            Promovarea pachetelor turistice și a serviciilor Destine Holidays. Poți deveni Promoter Turism și
+            beneficia de comision suplimentar la pachetele vândute.
+          </p>
+          <div class="domain-tags">
+            <span>Pachete turistice</span>
+            <span>Curs Promoter</span>
+            <span>Comision suplimentar</span>
+          </div>
+          <div class="domain-footer">
+            <small>Exemple de comision și flux de lucru pentru rezervări.</small>
+            <a href="turism.html" class="link-chip">
+              <span class="icon">🌍</span>
+              <span>Intră în pagina Turism</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Pensii -->
+        <article class="domain-card">
+          <div class="domain-kicker">Viitor financiar</div>
+          <div class="domain-title-row">
+            <h3>Pensii private (Pilon II &amp; III)</h3>
+            <div class="domain-icon">📑</div>
+          </div>
+          <p class="domain-desc">
+            Consultanță pentru pensiile private obligatorii și facultative, în parteneriat cu administratorii
+            autorizați. Domeniu cu impact major în siguranța financiară a clienților.
+          </p>
+          <div class="domain-tags">
+            <span>Pilon II &amp; III</span>
+            <span>Consiliere pe termen lung</span>
+            <span>Portofoliu recurent</span>
+          </div>
+          <div class="domain-footer">
+            <small>Ce poți face ca Asistent și care sunt regulile esențiale.</small>
+            <a href="pensii-private.html" class="link-chip">
+              <span class="icon">🧾</span>
+              <span>Intră în pagina Pensii</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CARIERĂ -->
+    <section id="cariera">
+      <div class="section-header">
+        <h2>Sistemul de carieră și distincțiile Destine</h2>
+        <p>
+          Sistemul de carieră Destine are 11 trepte, de la Aspirant până la Broker General, cu condiții clare de
+          promovare, distincții și bonusuri care răsplătesc performanța și munca în echipă.
+        </p>
+      </div>
+
+      <div class="career-grid">
+        <article class="career-card">
+          <h3>Treptele de carieră</h3>
+          <p>
+            Fiecare treaptă are un procent dedicat, condiții de producție personală, puncte totale, cursuri obligatorii
+            și structuri directe minime. Evoluția este meritocratică și transparentă.
+          </p>
+          <div class="career-steps">
+            <div class="career-step-pill">
+              <span class="label">1. Aspirant</span>
+              <span>Start în activitate, curs de inițiere.</span>
+            </div>
+            <div class="career-step-pill">
+              <span class="label">3. Broker</span>
+              <span>Puncte personale &amp; total, Seminar de debut.</span>
+            </div>
+            <div class="career-step-pill">
+              <span class="label">4. Broker coordonator</span>
+              <span>Curs de vânzări · echipă în creștere.</span>
+            </div>
+            <div class="career-step-pill">
+              <span class="label">5. Broker senior</span>
+              <span>Curs de coordonare, structură consolidată.</span>
+            </div>
+            <div class="career-step-pill">
+              <span class="label">7–8. Broker zonal</span>
+              <span>Management de zonă, cursuri de management.</span>
+            </div>
+            <div class="career-step-pill">
+              <span class="label">11. Broker general</span>
+              <span>Leadership &amp; drept de rentă.</span>
+            </div>
+          </div>
+          <p style="margin-top:8px;">
+            Pe măsură ce avansezi, crește atât procentul de comision, cât și impactul echipei
+            tale în rețeaua Destine.
+          </p>
+          <!-- TODO: Poți lega la o pagină dedicată sistemului de carieră -->
+          <a href="sistem-cariera.html" class="link-chip" style="margin-top:6px;">
+            <span class="icon">📈</span>
+            <span>Vezi detalii despre Sistemul de carieră</span>
+          </a>
+        </article>
+
+        <aside class="career-side-card">
+          <h3>Distincții &amp; bonusuri</h3>
+          <p>
+            La atingerea anumitor trepte de carieră, primești distincții simbolice și beneficii materiale:
+          </p>
+          <ul>
+            <li>Port card și insigne Destine (argint, aur, cu diamante);</li>
+            <li>Stilou gravat, ceas personalizat, laptop;</li>
+            <li>Acțiuni Destine Holding;</li>
+            <li>Autoturism de serviciu și ulterior în proprietate;</li>
+            <li>Monedă de aur personalizată.</li>
+          </ul>
+          <p style="margin-top:8px;">
+            În plus, sistemul de bonusuri lunare răsplătește producția personală la asigurări de
+            viață și portofoliul de alte asigurări.
+          </p>
+          <!-- TODO: link la pagini PDF sau HTML cu distincții / bonusuri -->
+          <div class="doc-actions" style="margin-top:6px;">
+            <a href="Anexa_4_ROF_Sistemul_de_cariera.pdf" class="badge">Anexa · Sistemul de carieră</a>
+            <a href="Anexa_5_ROF_-_Distinctii_Destine.pdf" class="badge">Anexa · Distincții</a>
+            <a href="Anexa_6_ROF_Bonusuri_DESTINE.pdf" class="badge">Anexa · Bonusuri</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- DOCUMENTE -->
+    <section id="documente">
+      <div class="section-header">
+        <h2>Regulamente, cod etic &amp; documente esențiale</h2>
+        <p>
+          Activitatea de asistent în brokeraj se desfășoară într-un cadru strict reglementat. Aici găsești
+          documentele de bază pe care trebuie să le cunoști și să le respecți.
+        </p>
+      </div>
+
+      <div class="cards-grid-small">
+        <article class="doc-card">
+          <div class="doc-title">Codul etic Destine</div>
+          <div class="doc-meta">
+            Principii de confidențialitate, loialitate față de client, bună credință față de asigurători și colegi.
+          </div>
+          <div class="doc-actions">
+            <a href="Anexa_1_ROF_Codul_Etic.pdf" class="badge">Deschide PDF</a>
+            <span class="badge">Obligatoriu de respectat</span>
+          </div>
+        </article>
+
+        <article class="doc-card">
+          <div class="doc-title">ROF – Destine Broker de Asigurare–Reasigurare</div>
+          <div class="doc-meta">
+            Regulamentul de organizare și funcționare al companiei: structură, funcții, reguli interne, servicii oferite.
+          </div>
+          <div class="doc-actions">
+            <a href="REGULAMENT de organizare şi funcţionare al DESTINE BROKER DE ASIGURARE REASIGURARE.pdf" class="badge">Deschide PDF</a>
+            <span class="badge">Document public</span>
+          </div>
+        </article>
+
+        <article class="doc-card">
+          <div class="doc-title">ROF – Activitatea asistenților în brokeraj</div>
+          <div class="doc-meta">
+            Regulament dedicat asistenților: drepturi, obligații, circuit documente, definirea producției și a structurii.
+          </div>
+          <div class="doc-actions">
+            <a href="ROF_editia_5_martie_2024.pdf" class="badge">Deschide PDF</a>
+            <span class="badge">Anexă la contractul de mandat</span>
+          </div>
+        </article>
+
+        <article class="doc-card">
+          <div class="doc-title">Comisioane și factori · Asigurări de viață</div>
+          <div class="doc-meta">
+            Detalierea factorilor, a comisioanelor pe ani de asigurare și pe produse de viață, necesari în calculul punctelor.
+          </div>
+          <div class="doc-actions">
+            <a href="Anexa_3_Comisioane_si_factori_viata_01.04.2024.pdf" class="badge">Deschide PDF</a>
+            <span class="badge">Actualizat 2024</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- INSTRUMENTE -->
+    <section id="instrumente">
+      <div class="section-header">
+        <h2>Instrumente pentru asistenți în brokeraj</h2>
+        <p>
+          Platforma reunește instrumente practice pentru calculul comisioanelor, pregătirea pentru examene și
+          organizarea activității zilnice.
+        </p>
+      </div>
+
+      <div class="tools-grid">
+        <article class="tool-card" id="simulator">
+          <h3>Simulator comisioane 2025</h3>
+          <p>
+            Află rapid cum se poate calcula comisionul tău pe Asigurări, Imobiliare, Turism și Credite, în funcție
+            de treapta de carieră și cursul valutar. Instrument ideal pentru prezentări și planificarea obiectivelor.
+          </p>
+          <div class="doc-actions">
+            <!-- Înlocuiește href dacă folosești altă denumire / locație -->
+            <a href="Simulator_Comisioane_2025_PREMIUM_V4_FINAL.html" class="btn btn-primary">
+              <span class="icon">🧮</span>
+              <span>Deschide Simulatorul de comisioane</span>
+            </a>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <h3>Teste &amp; pregătire profesională</h3>
+          <p>
+            Secțiune dedicată testelor interne pentru pregătirea examenelor ISF, verificarea cunoștințelor
+            legislative și a procedurilor Destine.
+          </p>
+          <div class="doc-actions">
+            <!-- TODO: actualizează linkurile către testele reale -->
+            <a href="test-intermediari-2025.html" class="badge">Test Intermediari 2025</a>
+            <a href="test-conducatori-2025.html" class="badge">Test Conducători 2025</a>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <h3>Ghiduri de prezentare &amp; training</h3>
+          <p>
+            Materiale de suport pentru prezentările de oportunitate, cursul de inițiere, seminariile de debut și
+            programele de leadership.
+          </p>
+          <div class="doc-actions">
+            <a href="Ghid Practic pentru Realizarea unei Prezentări de Succes.pdf" class="badge">Ghid prezentare</a>
+            <a href="Prezentare OPORTUNITATE update-GTOfertare.pdf" class="badge">Prezentare oportunitate</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-header">
+        <h2>Contact &amp; suport pentru asistenți în brokeraj</h2>
+        <p>
+          Pentru întrebări legate de activitate, carieră, documente sau acces la platformă, poți apela la coordonatorul
+          tău, reprezentanța locală sau departamentele centrale Destine Broker.
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <div>
+          <h3>Rețeaua Destine Broker</h3>
+          <p>
+            <strong>Reprezentanțe locale:</strong> la nivel național, coordonate de reprezentanți locali desemnați.
+          </p>
+          <p>
+            <strong>Coordonatorul tău direct:</strong> este primul contact pentru întrebări legate de activitatea zilnică,
+            structură și planul tău de carieră.
+          </p>
+          <p>
+            <strong>Platforma de emitere Destine:</strong> aici găsești deciziile, notele interne, grilele de comisioane,
+            procedurile și noutățile legislative.
+          </p>
+        </div>
+        <div>
+          <h3>Date generale de contact</h3>
+          <p><strong>Sediu central:</strong> Ploiești, str. Torcători, nr. 4</p>
+          <p><strong>Website oficial:</strong> <a href="https://www.destineb.ro" target="_blank" rel="noopener">www.destineb.ro</a></p>
+          <p><strong>Suport administrativ:</strong> (datele reale pot fi completate aici)</p>
+          <p style="margin-top:6px;">
+            Pentru actualizarea acestei pagini sau integrarea de noi instrumente, te rugăm să contactezi
+            echipa de IT / dezvoltare platformă.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        © Destine Broker de Asigurare–Reasigurare · Platformă pentru Asistenți în Brokeraj
+      </div>
+      <div class="footer-links">
+        <a href="#top">Înapoi sus</a>
+        <a href="#documente">Regulamente &amp; Cod etic</a>
+        <a href="#instrumente">Instrumente</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

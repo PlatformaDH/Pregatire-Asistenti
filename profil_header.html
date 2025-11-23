@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Contul Meu – Platformă Destine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f4f6fb;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(90deg, #154f9c, #1d6ad1, #ff7a1a);
+      padding: 16px 20px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 28px 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin: 0 0 20px;
+      color: #0f3970;
+      font-size: 24px;
+    }
+
+    .info-box {
+      background: #f8faff;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 1px solid #d4dced;
+      margin-bottom: 18px;
+    }
+
+    .info-row {
+      margin: 8px 0;
+      font-size: 15px;
+    }
+
+    .label {
+      font-weight: 600;
+      color: #0f3970;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 6px;
+    }
+
+    .btn-change {
+      background: #154f9c;
+      color: #fff;
+    }
+    .btn-change:hover { background: #0f3970; }
+
+    .btn-logout {
+      background: #d64545;
+      color: #fff;
+    }
+    .btn-logout:hover { background: #b33535; }
+
+    .msg {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  </style>
+
+<style>
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.user-name {
+  color: #fff;
+  background: rgba(255,255,255,0.18);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.35);
+}
+.header-link {
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+.header-link:hover {
+  background: rgba(0,0,0,0.18);
+}
+</style>
+
+</head>
+
+<body>
+
+<header>Profilul meu
+<div class="user-menu" id="userMenu" style="display:none;">
+  <span class="user-name" id="headerUserName">Utilizator</span>
+  <a href="profil.html" class="header-link">Profil</a>
+  <a id="logoutBtn" class="header-link">Logout</a>
+</div>
+
+</header>
+
+<div class="container">
+  <h2>Date personale</h2>
+
+  <div class="info-box">
+    <div class="info-row"><span class="label">Nume complet:</span> <span id="nume"></span></div>
+    <div class="info-row"><span class="label">Email (login):</span> <span id="email"></span></div>
+    <div class="info-row"><span class="label">Telefon:</span> <span id="telefon"></span></div>
+    <div class="info-row"><span class="label">Localitate:</span> <span id="localitate"></span></div>
+    <div class="info-row"><span class="label">Cod Intern Destine:</span> <span id="codIntern"></span></div>
+    <div class="info-row"><span class="label">Rol în platformă:</span> <span id="rol"></span></div>
+  </div>
+
+  <button class="btn btn-change" id="btnSchimbaParola">Schimbă parola</button>
+  <button class="btn btn-logout" id="btnLogout">Deconectare</button>
+
+  <div class="msg" id="msg"></div>
+</div>
+
+<!-- 🔥 LOGICĂ FIREBASE -->
+<script type="module">
+  import { auth, db } from "./firebase-config.js";
+  import {
+    onAuthStateChanged,
+    sendPasswordResetEmail,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+  import {
+    doc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+  const msg = document.getElementById("msg");
+
+  const el = {
+    nume: document.getElementById("nume"),
+    email: document.getElementById("email"),
+    telefon: document.getElementById("telefon"),
+    localitate: document.getElementById("localitate"),
+    codIntern: document.getElementById("codIntern"),
+    rol: document.getElementById("rol")
+  };
